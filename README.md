@@ -1,2 +1,2 @@
 # Plagiarism Detector
-K-Means makine öğrenimi algoritmasıyla makine öğrenimi aracı.
+K-Means makine öğrenimi algoritmasıyla kopya yakalama aracı.
