@@ -1,0 +1,5 @@
+Bu yazýnýn amacý, en basit terimlerden birisi olan Sistem kelimesini açýklamaktýr. Bir kelime ne kadar basit ve ne kadar sýk kullanýlýyorsa açýklamasý da bir o kadar zor olur.
+
+Kelime esas olarak Ýngilizcedeki System kelimesinden Türkçeye Sistem olarak girmiþtir (veya diðer baþka bir dilden de girmiþ olabilir ancak Türkçe olmadýðý kesin). Kelimenin girmesinden önce Türkçede ayný anlamý ifade eden “nizam” kelimesi kullanýlmaktaydý. Ardýndan, sanýrým sistem kelimesinin yabancý dilden girmesi ile birlikte “nizam” kelimesini de eski bulan birileri tarafýndan “düzen” veya “düzenek” gibi “düzmek” kökünden kelimeler üretilerek kullanýlmaya baþlandý. Ancak günümüzde kelime neredeyse tamamen Türkçeleþmiþ ve dilin bir parçasý haline gelmiþtir denilebilir. Yine de “nizam” kelimesini çok da yabana atmamak gerek çünkü hala yoðun bir þekilde kullanýlmakta.
+
+Bu yazýnýn amacý kelimeyi elbette bilgisayar bilimleri açýsýndan incelemektir. Farklý alanlarda farklý anlamlara gelebilmekle birlikte genelde ayný özde buluþuyor. Ortak bir taným yapýlmasý gerekirse sanýrým aþaðýdaki taným doðru olur:

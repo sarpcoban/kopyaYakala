@@ -1,0 +1,14 @@
+Bu yazýnýn amacý, literatürde naif Bayes (Naive Bayes) olarak bilinen algoritmanýn, sýnýflandýrma (classification) için kullanýlma þeklini açýklamaktýr. Herhangi bir sýnýflandýrma probleminde olduðu gibi, amacýmýz birden fazla özelliði taþýyan bir yöney (vektör) kullanarak verilen bilgilerden bir eðitim oluþturmak ve bu eðitim neticesinde gelen yeni verileri doðru bir þekilde sýnýflandýrmaktýr.
+
+Sýnýflandýrma iþlemi sýrasýnda, nasýl bir yol izlendiðini bir örnek üzerinden açýklamaya çalýþalým.
+
+Örneðimiz, aþaðýda verilen tablodaki verilerden bir sýnýflandýrýcý eðitimi olsun (train).
+
+Yukarýda, sadece muhasebe ve yazýlým kýsýmlarýnda çalýþan kiþilerin maaþ, yaþ ve iþ tecrübelerini içeren temsili bir tablo verilmiþtir. Buna göre aþaðýdaki þekilde bize bir bilgi verilse:
+
+Maaþ : 3000, Yaþ : 30, Tecrübe : 5yýl
+
+Bu kiþinin hangi kýsýmda çalýþtýðýný acaba bulabilir miyiz?
+
+Öncelikle eðitim ile iþe baþlayalým sonra da testimizi yaparýz. Basitçe veri kümemizideki (data set) Yazýlým ve Muhasebe kýsýmlarýnýn ortalama ve varyans deðerlerini hesaplýyoruz. Bu deðerler aþaðýdaki þekildedir:
+

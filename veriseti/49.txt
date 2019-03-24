@@ -1,0 +1,9 @@
+Bu yazýnýn amacý, bilgisayar bilimlerinde özellikle veri madenciliði (data mining) konularýnda eksik verilerle karþýlaþýlmasý halinde bir çözüm olarak bu eksik verilerin töhmet edilmesi (yerine uygun verilerin üretilmesi, imputation) yöntemini açýklamaktýr.
+
+Töhmet, sözlükte olmayan birþeyin yüklenmesi anlamýndadýr. Örneðin olmayan bir suçun birisine yüklenmesine töhmet altýnda býrakmak denilebilir. Bu anlamda vir veri kümesi (data set) üzerinde çalýþýlýrken bazý sebeplerden dolayý verilerin eksik olmasý halinde bu verilerin uygun baþka sayýlarla tamamlanmasý saðlanabilir.
+
+Genelde verinin hatalý okunmasý, veri kaynaðýnda yaþanan bozulma gibi sorunlar veya bazý verilere eriþim zorluðu eksik verilere sebep olabilmektedir.
+
+Bu verilerin eksik olmasý durumu genelde sorunlara sebep olur. Örneðin çoðu hazýr istatistik paketleri (SAS, SPSS, Weka veya r-project gibi) bu tip durumlarda sorunlar yaþamaktadýr. Gerçi bu paketlerin ücretli ve geliþmiþ olanlarýnýn çoðunda (SAS veya SPSS gibi) töhmet modülleri (imputation) bulunmakta ve bu iþi otomatik olarak yapabilmektedirler ancak bu yazý kapsamýnda gerek bu modüllerin nasýl çalýþtýðýný anlamaya çalýþacaðýz gerekse bu iþlemi elle yapmak istediðimizde nasýl müdahale etmemiz gerektiðini açýklamaya çalýþacaðýz.
+
+Töhmet yöntemleri duruma ve beklentilerimize göre çeþitlilik arz eder ve halen üzerinde çalýþýlmaktadýr. Bunlardan çok bilinen bazýlarýný saymamýz gerekirse:
