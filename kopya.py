@@ -1,4 +1,4 @@
-import docx
+﻿import docx
 from collections import Counter
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.converter import TextConverter
@@ -10,20 +10,14 @@ import os
 from random import *
 import numpy as np
 from sklearn.cluster import KMeans
-
-
-
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
 kelime_dizi = []
 kelime_kok = []
 dosya_kelime = []
 cumle_vektor = []
-durak = ['açıkçası', 'ama', 'ancak', 'bile', 'çünkü', 'dahi', 'de', 'da', 'ki', 'fakat', 'gene', 'gerek', 'he', 'ha',
-         'halbuki', 'hatta', 'hele', 'hem', 'ile', 'ise', 'kah', 'ki', 'lakin', 'nitekim', 'oysa', 've', 'veya',
-         'veyahut', 'yahut', 'yine', 'yoksa', 'zira', 'için', '']
-
 
 def benzerlik_hesabi(vektor,indis):
-
     for i in range(len(indis)):
         for j in range(len(indis[i])):
             for k in range(j+1,len(indis[i])):
@@ -38,10 +32,8 @@ def benzerlik_hesabi(vektor,indis):
                         continue
                     else:
                         benzer_kelime = benzer_kelime + min(vektor[indis[i][j]][0][l],vektor[indis[i][k]][0][l])
-
                 benzer_1 = 100*benzer_kelime/tum_kelime_1
                 benzer_2 = 100*benzer_kelime/tum_kelime_2
-
                 if(50 > benzer_1 >= 30):
                     print(vektor[indis[i][k]][1]+","+vektor[indis[i][j]][1]+"'ya %"+str(round(benzer_1,2))+" benziyor.Kopya olabilir.")
                 elif(benzer_1>=50):
@@ -50,88 +42,55 @@ def benzerlik_hesabi(vektor,indis):
                 else:
                     print(vektor[indis[i][k]][1] + "," + vektor[indis[i][j]][1] + "'ya %" + str(
                         round(benzer_1, 2)) + " benziyor.Kopya değildir.")
-
                 if (50 > benzer_2 >= 30):
                     print(vektor[indis[i][j]][1] + "," + vektor[indis[i][k]][1] + "'ya %" + str(
                         round(benzer_2, 2)) + " benziyor.Kopya olabilir.")
                 elif (benzer_2 >= 50):
                     print(vektor[indis[i][j]][1] + "," + vektor[indis[i][k]][1] + "'ya %" + str(
                         round(benzer_2, 2)) + " benziyor.Kesinlikle kopya.")
-
                 else:
                     print(vektor[indis[i][j]][1] + "," + vektor[indis[i][k]][1] + "'ya %" + str(
                         round(benzer_2, 2)) + " benziyor.Kopya değildir.")
 
-
 def kok_al(kelimeler):
+    TurkishMorphology = jp.JClass('zemberek.morphology.TurkishMorphology')
+    Paths = jp.JClass('java.nio.file.Paths')
+    morphology = TurkishMorphology.createWithDefaults()
 
-    Tr = jp.JClass("net.zemberek.tr.yapi.TurkiyeTurkcesi")
-    Zemberek = jp.JClass("net.zemberek.erisim.Zemberek")
-    turkce = Tr()
-    zemberek = Zemberek(turkce)
-    global kelime_kok
-    kelime_kok_yerel = []
+    k = 0
+    i = 0
 
-    for i in range(len(kelimeler)):
-        try:
-            yanit = zemberek.kelimeCozumle(kelimeler[i])
-            yanit_kok = str(yanit[0])
-            yanit_kok = yanit_kok.split(" ")
-            if(kelime_kok.count(yanit_kok[3])==0):
-                kelime_kok.append(yanit_kok[3])
-            kelime_kok_yerel.append(yanit_kok[3])
-        except:
-            None
-    return kelime_kok_yerel
+    while k < len(kelimeler):
+
+        while i < len(kelimeler[k]):
+            analysis = morphology.analyzeSentence(kelimeler[k][i])
+
+            results = morphology.disambiguate(kelimeler[k][i], analysis).bestAnalysis()
+
+            results = results[0].getStems()
+
+            kelimeler[k][i] = results[0]
+
+            i += 1
+        k += 1
+        i = 0
+
+    return kelimeler
+
 
 
 def kelime_bol(cumle):
-    cumle = cumle.lower()
-    cumle = cumle.replace(",", " ")
-    cumle = cumle.replace("\n", " ")
-    cumle = cumle.replace(".", " ")
-    cumle = cumle.replace("!", " ")
-    cumle = cumle.replace("'", " ")
-    cumle = cumle.replace("/", " ")
-    cumle = cumle.replace("(", " ")
-    cumle = cumle.replace(")", " ")
-    cumle = cumle.replace("%", " ")
-    cumle = cumle.replace("&", " ")
-    cumle = cumle.replace("^", " ")
-    cumle = cumle.replace("\\", " ")
-    cumle = cumle.replace("{", " ")
-    cumle = cumle.replace("}", " ")
-    cumle = cumle.replace("[", " ")
-    cumle = cumle.replace("]", " ")
-    cumle = cumle.replace("+", " ")
-    cumle = cumle.replace("-", " ")
-    cumle = cumle.replace("*", " ")
-    cumle = cumle.replace("_", " ")
-    cumle = cumle.replace("#", " ")
-    cumle = cumle.replace("$", " ")
-    cumle = cumle.replace("<", " ")
-    cumle = cumle.replace(">", " ")
-    cumle = cumle.replace("|", " ")
-    cumle = cumle.replace("=", " ")
-    cumle = cumle.replace("£"," ")
-    cumle = cumle.replace("½", " ")
-    cumle = cumle.replace("@", " ")
-    cumle = cumle.replace("€", " ")
-    cumle = cumle.replace("₺", " ")
-    cumle = cumle.replace("¨", " ")
-    cumle = cumle.replace("~", " ")
-    cumle = cumle.split(" ")
+    
     kelime_dizi_yerel = []
-    global kelime_dizi
-    for i in range(len(cumle)):
-        kelime_dizi_yerel.append(cumle[i])
-    for i in range(len(durak)):
-        if(kelime_dizi_yerel.count(durak[i])>0):
-            for j in range(kelime_dizi_yerel.count(durak[i])):
-                kelime_dizi_yerel.remove(durak[i])
-
+    cevirici = str.maketrans('', '', punctuation)
+    cumle = deger.translate(cevirici)
+    cumle = cumle.lower()
+    stop_words = set(stopwords.words('turkish'))
+    word_tokens = word_tokenize(cumle)
+    for words in word_tokens:
+        if words not in stop_words:
+            kelime_dizi_yerel.append(words)
     return kelime_dizi_yerel
-
 def docxOku(filename):
     doc = docx.Document(filename)
     fullText = []
@@ -141,9 +100,6 @@ def docxOku(filename):
     kelime_havuz = kelime_bol(fullText)
     global dosya_kelime
     dosya_kelime.append(kok_al(kelime_havuz))
-
-
-
 def pdfOku(file):
     cikti = StringIO()
     kaynak_yonetici = PDFResourceManager()
@@ -156,14 +112,12 @@ def pdfOku(file):
     kelime_havuz = kelime_bol(cikti.getvalue())
     global dosya_kelime
     dosya_kelime.append(kok_al(kelime_havuz))
-
 def txtOku(file):
     file = open(file, "r")
     icerik = file.read()
     kelime_havuz = kelime_bol(icerik)
     global dosya_kelime
     dosya_kelime.append(kok_al(kelime_havuz))
-
 def vektor(cumleler,dosya_adi):
     global cumle_vektor
     temp_dizi2 = []
@@ -183,9 +137,6 @@ def vektor(cumleler,dosya_adi):
         temp_dizi3.append(temp_dizi2[i])
         temp_dizi3.append(dosya_adi[i])
         cumle_vektor.append(temp_dizi3)
-
-
-
 def hesapla(cumle):
     shuffle(cumle)
     vektor = []
@@ -200,13 +151,8 @@ def hesapla(cumle):
         kume=kumele.labels_
         k_grup.append(np.nonzero(kume == i)[0])
     benzerlik_hesabi(cumle,k_grup)
-
-
-
-
 jp.startJVM(jp.getDefaultJVMPath(), "-ea", "-Djava.class.path=zemberek-tum-2.0.jar")
 dosyalar = [f for f in os.listdir("veriseti")]
-
 for i in range(len(dosyalar)):
     if(dosyalar[i][-3:]=='txt'):
         txtOku("veriseti/"+dosyalar[i])
@@ -216,3 +162,6 @@ for i in range(len(dosyalar)):
         docxOku('veriseti/'+dosyalar[i])
 vektor(dosya_kelime,dosyalar)
 hesapla(cumle_vektor)
+
+
+
